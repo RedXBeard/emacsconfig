@@ -40,7 +40,7 @@
 (package-refresh-contents)
 
 
-(setq package-archive-enable-alist '(("melpa" pip-requirements py-autopep8 virtualenvwrapper ido neotree ipython deft magit column-marker python-mode pungi yasnippet jedi auto-complete autopair find-file-in-repository flycheck python-environment auto-virtualenv anaconda-mode)))
+(setq package-archive-enable-alist '(("melpa" kivy-mode pip-requirements py-autopep8 virtualenvwrapper ido neotree ipython deft magit column-marker python-mode pungi yasnippet jedi auto-complete autopair find-file-in-repository flycheck python-environment auto-virtualenv anaconda-mode)))
 
 (require 'ido)
 (require 'magit)
@@ -51,7 +51,9 @@
 (require 'neotree)
 (require 'virtualenvwrapper)
 (require 'py-autopep8)
-
+(require 'python-mode)
+(require 'pip-requirements)
+(require 'kivy-mode)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 (setq py-autopep8-options '("--max-line-length=120"))
 
@@ -74,11 +76,11 @@
  ac-candidate-limit 20)
 
 ;; ;; Python mode settings
-(require 'python-mode)
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.kv$" . kivy-mode))
 (add-to-list 'auto-mode-alist '("requirements$" . pip-requirements-mode))
 (setq py-electric-colon-active t)
-(add-hook 'python-mode-hook 'elpy-mode)
+;;(add-hook 'python-mode-hook 'elpy-mode)
 (add-hook 'python-mode-hook 'anaconda-mode)
 (add-hook 'python-mode-hook 'autopair-mode)
 (add-hook 'python-mode-hook 'yas-minor-mode)
@@ -118,3 +120,10 @@
       (hs-hide-all)))
 (global-set-key (kbd "C-c C-h") 'hs-enable-and-toggle)
 (global-set-key (kbd "C-c C-j") 'hs-enable-and-hideshow-all)
+
+
+(defun close-all-buffers ()
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
+(global-set-key (kbd "\C-ck") 'close-all-buffers)
