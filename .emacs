@@ -1,14 +1,4 @@
-;;(setq base "~/.EmacsConf/")
-;;(load (concat base "ca-init.el"))
-;;(setq base "~/.minimal-emacs-configuration/")
-;;(load (concat base "init.el"))
- 
-;;(setq py-install-directory "/Users/denizci/.emacs.d/python-mode.el/")
-;;(add-to-list 'load-path py-install-directory)
-;;(require 'python-mode)
-;;(add-to-list 'load-path "~/.emacs.d/neotree")
-;;(require 'neotree)
-
+(setq home-directory (concat (getenv "HOME") "/"))
 (load "package")
 (package-initialize)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -61,8 +51,6 @@
 (require 'neotree)
 (require 'virtualenvwrapper)
 (require 'py-autopep8)
-;;(elpy-enable)
-;;(elpy-use-ipython)
 
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 (setq py-autopep8-options '("--max-line-length=120"))
@@ -70,7 +58,7 @@
 (global-set-key "\C-xg" 'magit-status)
 
 (venv-initialize-interactive-shells)
-(setq venv-location "/Users/denizci/virtualenvs/")
+(setq venv-location (concat home-directory "virtualenvs/"))
 
 (global-set-key [f8] 'neotree-toggle)
 (setq neo-smart-open t)
