@@ -39,8 +39,17 @@
 (package-initialize)
 (package-refresh-contents)
 
+(defun install-if-needed (package)
+  (unless (package-installed-p package)
+    (package-install package)))
 
-(setq package-archive-enable-alist '(("melpa" kivy-mode pip-requirements py-autopep8 virtualenvwrapper ido neotree ipython deft magit column-marker python-mode pungi yasnippet jedi auto-complete autopair find-file-in-repository flycheck python-environment auto-virtualenv anaconda-mode)))
+;; make more packages available with the package installer
+(setq to_install '(minimap kivy-mode pip-requirements py-autopep8 virtualenvwrapper ido neotree deft magit column-marker python-mode pungi yasnippet jedi auto-complete autopair find-file-in-repository flycheck python-environment auto-virtualenv anaconda-mode))
+
+(mapc 'install-if-needed to_install)
+
+
+(setq package-archive-enable-alist '(("melpa" minimap kivy-mode pip-requirements py-autopep8 virtualenvwrapper ido neotree deft magit column-marker python-mode pungi yasnippet jedi auto-complete autopair find-file-in-repository flycheck python-environment auto-virtualenv anaconda-mode)))
 
 (require 'ido)
 (require 'magit)
@@ -54,8 +63,6 @@
 (require 'python-mode)
 (require 'pip-requirements)
 (require 'kivy-mode)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-(setq py-autopep8-options '("--max-line-length=120"))
 
 (global-set-key "\C-xg" 'magit-status)
 
@@ -84,7 +91,12 @@
 (add-hook 'python-mode-hook 'anaconda-mode)
 (add-hook 'python-mode-hook 'autopair-mode)
 (add-hook 'python-mode-hook 'yas-minor-mode)
-(add-hook 'python-mode-hook 'auto-complete-mode)
+;;(add-hook 'elpy-mode-hook 'auto-complete-mode)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+(setq py-autopep8-options '("--max-line-length=120"))
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+
 
 ;; -------------------- extra nice things --------------------
 ;; use shift to move around windows
@@ -99,7 +111,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
-;; '(menu-bar-mode nil)
+ '(minimap-buffer-name " *MINIMAP*")
+ '(minimap-hide-fringes t)
+ '(minimap-minimum-width 25)
+ '(minimap-mode t)
+ '(minimap-width-fraction 0.0)
+ '(minimap-window-location (quote right))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 
@@ -123,7 +140,16 @@
 
 
 (defun close-all-buffers ()
+
   (interactive)
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 (global-set-key (kbd "\C-ck") 'close-all-buffers)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(hl-line ((t (:background "DodgerBlue4"))))
+ '(minimap-active-region-background ((t (:background "DodgerBlue4"))))
+ '(vline ((t (:background "DeepSkyBlue4")))))
