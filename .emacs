@@ -2,7 +2,6 @@
 (load "package")
 (package-initialize)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-(load-theme 'deeper-blue)
 (windmove-default-keybindings 'shift)
 (show-paren-mode t)
 (setq visible-bell nil)
@@ -44,13 +43,22 @@
     (package-install package)))
 
 ;; make more packages available with the package installer
-(setq to_install '(minimap kivy-mode pip-requirements py-autopep8 virtualenvwrapper ido neotree deft magit column-marker python-mode pungi yasnippet jedi auto-complete autopair find-file-in-repository flycheck python-environment auto-virtualenv anaconda-mode))
+(setq to_install '(ample-theme tabbar minimap kivy-mode pip-requirements py-autopep8 virtualenvwrapper ido neotree deft magit column-marker python-mode pungi yasnippet jedi auto-complete autopair find-file-in-repository flycheck python-environment auto-virtualenv anaconda-mode))
 
 (mapc 'install-if-needed to_install)
 
 
-(setq package-archive-enable-alist '(("melpa" minimap kivy-mode pip-requirements py-autopep8 virtualenvwrapper ido neotree deft magit column-marker python-mode pungi yasnippet jedi auto-complete autopair find-file-in-repository flycheck python-environment auto-virtualenv anaconda-mode)))
+(setq package-archive-enable-alist '(("melpa" ample-theme tabbar minimap kivy-mode pip-requirements py-autopep8 virtualenvwrapper ido neotree deft magit column-marker python-mode pungi yasnippet jedi auto-complete autopair find-file-in-repository flycheck python-environment auto-virtualenv anaconda-mode)))
 
+;; then in your init you can load all of the themes
+;; without enabling theme (or just load one)
+(load-theme 'ample t t)
+(load-theme 'ample-flat t t)
+(load-theme 'ample-light t t)
+;; choose one to enable
+(enable-theme 'ample-flat)
+
+(require 'tabbar-ruler)
 (require 'ido)
 (require 'magit)
 (require 'auto-complete)
@@ -111,12 +119,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(minimap-buffer-name " *MINIMAP*")
- '(minimap-hide-fringes t)
- '(minimap-minimum-width 25)
- '(minimap-mode t)
- '(minimap-width-fraction 0.0)
- '(minimap-window-location (quote right))
+ '(custom-safe-themes
+   (quote
+    ("12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "71ecffba18621354a1be303687f33b84788e13f40141580fa81e7840752d31bf" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "04dd0236a367865e591927a3810f178e8d33c372ad5bfef48b5ce90d4b476481" "a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" default)))
+ '(mode-icons-mode nil)
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 
@@ -145,11 +151,13 @@
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 (global-set-key (kbd "\C-ck") 'close-all-buffers)
-(custom-set-faces
+ ;; (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(hl-line ((t (:background "DodgerBlue4"))))
- '(minimap-active-region-background ((t (:background "DodgerBlue4"))))
- '(vline ((t (:background "DeepSkyBlue4")))))
+ ;; '(hl-line ((t (:background '#757B80'))))
+ ;; '(minimap-active-region-background ((t (:background "DodgerBlue4"))))
+ ;; '(vline ((t (:background "DeepSkyBlue4")))))
+
+(set-face-background 'hl-line "#404040")
